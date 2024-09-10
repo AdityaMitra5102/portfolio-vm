@@ -108,7 +108,6 @@
   </head>
   <body>
 
-
     <div class="spinner" id='spinner'></div>
     <div class="emscripten" id="status">Downloading...</div>
 
@@ -126,9 +125,9 @@
 
   <div id="startup" style="margin:auto;max-width:500px">
     Are you sure to download Qemu.js (about <b>30-40 Mb</b> uncompressed)? Please note that <b>browser may freeze!</b><br/>
-    
+    <b>Work in progress.</b> Build instructions see <a href="https://github.com/atrosinenko/qemujs-builder">here</a>.<br/>
     Guest architecture: <select id="arch"></select> <br/>
-    Memory size allocated for Qemu in MB: <input type="number" id="memSize" value="512"> <br/>
+    Memory size allocated for Qemu in MB: <input type="number" id="memSize" value="256"> <br/>
     <input type="button" onclick="javascript:downloadQemu();" value="Download">
   </div>
 
@@ -136,7 +135,7 @@
     <table style="margin:auto">
       <tr>
         <td>Memory MB</td>
-        <td><input type="number" id="qemu_m" value="256"></td>
+        <td><input type="number" id="qemu_m" value="96"></td>
       </tr>
       <tr>
         <td>Preset</td>
@@ -189,6 +188,8 @@
   <div id="main_controls" style="display:none">
     <div class="emscripten_border">
       <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+      
+    </div>
   </div>
     <textarea id="output" rows="8" style="display:none"></textarea>
 
@@ -232,13 +233,7 @@
           if (0) { // XXX disabled for safety typeof dump == 'function') {
             dump(text + '\n'); // fast, straight to the real console
           } else {
-          	  const txt2=String(text);
-            console.log(txt2);
-            if (txt2.includes('call_rcu'))
-          {
-            console.log('runq1');
-          
-          }
+            console.error(text);
           }
         },
         canvas: (function() {
@@ -307,8 +302,6 @@
             newOption.value = key;
             newOption.text = presets[key].name;
             archElement.options.add(newOption);
-            initpage();
-            
           }
         };
         xhr.open("GET", "presets.json");
@@ -370,6 +363,7 @@
 
         Module['onRuntimeInitialized'] = function() {
           configurationElement.style.display = 'block';
+          runQemu();
         }
 
         var emterpretXHR = new XMLHttpRequest();
@@ -381,7 +375,6 @@
           var script = document.createElement('script');
           script.src = "qemu-system-" + arch + ".js";
           document.body.appendChild(script);
-
         };
         emterpretXHR.onerror = emterpretXHR.onload;
         emterpretXHR.send(null);
@@ -491,7 +484,7 @@
               xhr.onload = function(event) {
                 var arrayBuffer = xhr.response;
                 if(arrayBuffer && xhr.status == 200) {
-                  output.innerHTML = "Download compeleted";
+                  output.innerHTML = "Download compelted";
                   createFile(value, new Uint8Array(arrayBuffer));
                 } else {
                   output.innerHTML = "Error " + xhr.status;
@@ -525,7 +518,6 @@
       }
 
       function runQemu() {
-        console.log('runq2');
         var args = presets[archElement.value].args.concat(['-m', qemu_m_element.value]);
         for(k in qemu_args) {
           args = args.concat(argument(k, qemu_args[k]))
@@ -542,11 +534,6 @@
       }
 
       setDownloading(false);
-      function initpage()
-      {
-        downloadQemu();
-      }
-
     </script>
     <!--
     {{{ SCRIPT }}}
