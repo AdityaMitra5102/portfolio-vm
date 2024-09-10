@@ -236,6 +236,7 @@
             console.log(txt2);
             if (txt2.includes('call_rcu'))
           {
+            console.log('runq1');
             runQemu();
           }
           }
@@ -524,6 +525,7 @@
       }
 
       function runQemu() {
+        console.log('runq2');
         var args = presets[archElement.value].args.concat(['-m', qemu_m_element.value]);
         for(k in qemu_args) {
           args = args.concat(argument(k, qemu_args[k]))
