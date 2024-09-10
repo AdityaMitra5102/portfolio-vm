@@ -168,7 +168,13 @@
       <progress value="0" max="100" id="progress" hidden=1></progress>
     </div>
 
-  <div id="startup" style="margin:auto;max-width:500px">
+
+    <div id='fullscreenmenu' class="fullscreen-container" style="display:none">
+         <input type="button" class="start-button" onclick="javascript:startFullScreen();" value="Start">
+    </div>
+
+
+  <div id="startup" style="display:none">
   <div style="display:none">
     Are you sure to download Qemu.js (about <b>30-40 Mb</b> uncompressed)? Please note that <b>browser may freeze!</b><br/>
  
@@ -177,10 +183,7 @@
     
     <input type="button" onclick="javascript:downloadQemu();" value="Download">
     </div>
-      <div class="fullscreen-container">
-         <input type="button" class="start-button" onclick="javascript:downloadQemu();" value="Start">
-    </div>
-
+    
   </div>
 
   <div id="configuration" style="display:none">
@@ -271,6 +274,7 @@
       var qemuStatsElement = document.getElementById('qemu_stats');
       var startupElement = document.getElementById('startup');
       var configurationElement = document.getElementById('configuration');
+      var fsMenuElement = document.getElementById('fullscreenmenu');
       var archElement = document.getElementById('arch');
       var mainControlsElement = document.getElementById('main_controls');
       var memSizeElement = document.getElementById('memSize');
@@ -373,6 +377,7 @@
             newOption.value = key;
             newOption.text = presets[key].name;
             archElement.options.add(newOption);
+            downloadQemu();
           }
         };
         xhr.open("GET", "presets.json");
@@ -587,12 +592,21 @@
           Module._fast_invalidate_tb(k|0);
         }
       }
-
-    
+      
       function startFullScreen()
       {
-        document.getElementById('canvasfs').click();
-       }
+      	fsMenuElement.style.display = 'none';
+      	mainControlsElement.style.display = 'block';
+           document.getElementById('canvasfs').click();
+      }
+      
+      function showFsMenu()
+      {
+      	configurationElement.style.display = 'none';
+        	fsMenuElement.style.display = 'block';
+      	
+      }
+
       function runQemu() {
         var args = presets[archElement.value].args.concat(['-m', qemu_m_element.value]);
         for(k in qemu_args) {
@@ -606,7 +620,7 @@
             mainControlsElement.style.display = 'block';
             configurationElement.style.display = 'none';
             Module.callMain(args);
-            setTimeout(startFullScreen, 10000);
+            setTimeout(showFsMenu,6000);
           });
       }
 
