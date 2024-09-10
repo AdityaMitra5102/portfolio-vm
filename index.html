@@ -232,8 +232,9 @@
           if (0) { // XXX disabled for safety typeof dump == 'function') {
             dump(text + '\n'); // fast, straight to the real console
           } else {
-            console.error(text);
-            if ('call_rcu' in text)
+          	  const txt2=String(text);
+            console.log(txt2);
+            if (txt2.includes('call_rcu'))
           {
             runQemu();
           }
