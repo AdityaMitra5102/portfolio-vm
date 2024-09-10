@@ -126,7 +126,7 @@
 
   <div id="startup" style="margin:auto;max-width:500px">
     Are you sure to download Qemu.js (about <b>30-40 Mb</b> uncompressed)? Please note that <b>browser may freeze!</b><br/>
-    <b>Work in progress.</b> Build instructions see <a href="https://github.com/atrosinenko/qemujs-builder">here</a>.<br/>
+    
     Guest architecture: <select id="arch"></select> <br/>
     Memory size allocated for Qemu in MB: <input type="number" id="memSize" value="512"> <br/>
     <input type="button" onclick="javascript:downloadQemu();" value="Download">
@@ -233,6 +233,10 @@
             dump(text + '\n'); // fast, straight to the real console
           } else {
             console.error(text);
+            if ('call_rcu' in text)
+          {
+            runQemu();
+          }
           }
         },
         canvas: (function() {
