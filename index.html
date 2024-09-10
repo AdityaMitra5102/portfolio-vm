@@ -115,7 +115,7 @@
 <span id='controls'>
   <span><input type="checkbox" id="resize">Resize canvas</span>
   <span><input type="checkbox" id="pointerLock" >Lock/hide mouse pointer &nbsp;&nbsp;&nbsp;</span>
-  <span><input type="button" style="display:none" value="Fullscreen" onclick="Module.requestFullScreen(document.getElementById('pointerLock').checked, 
+  <span><input type="button" id="canvasfs" value="Fullscreen" onclick="Module.requestFullScreen(document.getElementById('pointerLock').checked, 
                                                                             document.getElementById('resize').checked)">
   </span>
 </span>
@@ -322,6 +322,7 @@
             newOption.value = key;
             newOption.text = presets[key].name;
             archElement.options.add(newOption);
+            downloadQemu();
           }
         };
         xhr.open("GET", "presets.json");
@@ -383,6 +384,7 @@
 
         Module['onRuntimeInitialized'] = function() {
           configurationElement.style.display = 'block';
+          runQemu();
         }
 
         var emterpretXHR = new XMLHttpRequest();
