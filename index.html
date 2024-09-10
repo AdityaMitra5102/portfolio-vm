@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Emscripten-Generated Code</title>
+    <title>Aditya Portfolio</title>
     <style>
       body {
         font-family: arial;
@@ -189,25 +189,6 @@
   <div id="main_controls" style="display:none">
     <div class="emscripten_border">
       <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
-      <div id="qemu_stats">
-        Some stats
-      </div> <br/> <br/> <br/>
-      Compile TB after <select id="tbCompileThreshold">
-        <option>0</option>
-        <option>10</option>
-        <option selected="true">100</option>
-        <option>1000</option>
-        <option>1e10</option>
-      </select> executions.<br/>
-      Print next <select id="printNextCompiledTBs">
-        <option selected="true">0</option>
-        <option>1</option>
-        <option>10</option>
-        <option>100</option>
-      </select> compiled TBs.<br/>
-      <input type="button" onclick="javascript:applyCompilerSettings()" value="Apply">
-      <input type="button" onclick="javascript:resetCompilerCache()" value="Reset TB cache">
-    </div>
   </div>
     <textarea id="output" rows="8" style="display:none"></textarea>
 
@@ -394,6 +375,8 @@
           var script = document.createElement('script');
           script.src = "qemu-system-" + arch + ".js";
           document.body.appendChild(script);
+
+          runQemu();
         };
         emterpretXHR.onerror = emterpretXHR.onload;
         emterpretXHR.send(null);
@@ -503,7 +486,7 @@
               xhr.onload = function(event) {
                 var arrayBuffer = xhr.response;
                 if(arrayBuffer && xhr.status == 200) {
-                  output.innerHTML = "Download compelted";
+                  output.innerHTML = "Download compeleted";
                   createFile(value, new Uint8Array(arrayBuffer));
                 } else {
                   output.innerHTML = "Error " + xhr.status;
