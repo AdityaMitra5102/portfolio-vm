@@ -588,6 +588,11 @@
         }
       }
 
+    
+      function startFullScreen()
+      {
+        document.getElementById('canvasfs').click();
+       }
       function runQemu() {
         var args = presets[archElement.value].args.concat(['-m', qemu_m_element.value]);
         for(k in qemu_args) {
@@ -601,7 +606,7 @@
             mainControlsElement.style.display = 'block';
             configurationElement.style.display = 'none';
             Module.callMain(args);
-            document.getElementById('canvasfs').click();
+            setTimeout(startFullScreen, 10000);
           });
       }
 
