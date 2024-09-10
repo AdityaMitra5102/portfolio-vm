@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Emscripten-Generated Code</title>
+    <title>Aditya Portfolio</title>
     <style>
       body {
         font-family: arial;
@@ -104,6 +104,48 @@
         font-family: 'Lucida Console', Monaco, monospace;
         outline: none;
       }
+      
+      
+       .fullscreen-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            background-image: radial-gradient(circle, transparent 98%, #013700 1%), 
+                              radial-gradient(circle, #013700 1%, transparent 98%);
+            background-position: 0 0, 3px 3px;
+            background-size: 6px 6px;
+            z-index: 9999;
+        }
+
+        .start-button {
+            padding: 20px 40px;
+            font-size: 24px;
+            font-weight: bold;
+            background-color: #1f1c2c;
+            border: 3px solid #6a82fb;
+            color: #fff;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            box-shadow: 0px 0px 20px 2px rgba(106, 130, 251, 0.7), 
+                        0px 0px 50px 5px rgba(106, 130, 251, 0.4);
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .start-button:hover {
+            background: #6a82fb;
+            box-shadow: 0px 0px 30px 5px rgba(106, 130, 251, 0.9), 
+                        0px 0px 70px 10px rgba(106, 130, 251, 0.6);
+            border-color: #fff;
+        }
+
     </style>
   </head>
   <body>
@@ -112,6 +154,7 @@
     <div class="spinner" id='spinner'></div>
     <div class="emscripten" id="status">Downloading...</div>
 
+<div style="display:none">
 <span id='controls'>
   <span><input type="checkbox" id="resize">Resize canvas</span>
   <span><input type="checkbox" id="pointerLock" >Lock/hide mouse pointer &nbsp;&nbsp;&nbsp;</span>
@@ -119,17 +162,25 @@
                                                                             document.getElementById('resize').checked)">
   </span>
 </span>
+</div>
 
     <div class="emscripten">
       <progress value="0" max="100" id="progress" hidden=1></progress>
     </div>
 
   <div id="startup" style="margin:auto;max-width:500px">
+  <div style="display:none">
     Are you sure to download Qemu.js (about <b>30-40 Mb</b> uncompressed)? Please note that <b>browser may freeze!</b><br/>
  
     Guest architecture: <select id="arch"></select> <br/>
     Memory size allocated for Qemu in MB: <input type="number" id="memSize" value="512"> <br/>
+    
     <input type="button" onclick="javascript:downloadQemu();" value="Download">
+    </div>
+      <div class="fullscreen-container">
+         <input type="button" class="start-button" onclick="javascript:downloadQemu();" value="Start">
+    </div>
+
   </div>
 
   <div id="configuration" style="display:none">
@@ -322,7 +373,6 @@
             newOption.value = key;
             newOption.text = presets[key].name;
             archElement.options.add(newOption);
-            downloadQemu();
           }
         };
         xhr.open("GET", "presets.json");
@@ -562,3 +612,4 @@
     -->
   </body>
 </html>
+
